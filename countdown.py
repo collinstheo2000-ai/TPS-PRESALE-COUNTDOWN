@@ -26,7 +26,9 @@ import os
 
 from PIL import Image, ImageChops, ImageDraw, ImageFont
 
-FONT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fonts")
+HERE = os.path.dirname(os.path.abspath(__file__))
+# Fonts may sit in a fonts/ folder or right next to this file
+FONT_DIRS = [os.path.join(HERE, "fonts"), HERE, os.path.join(os.getcwd(), "fonts"), os.getcwd()]
 # Colour presets from the TPS27 campaign palette; pick with ?theme=<name>.
 # Any individual colour parameter still overrides the preset.
 THEMES = {
@@ -50,10 +52,12 @@ def hex_colour(value, default):
 
 
 def font(size, weight="700"):
-    try:
-        return ImageFont.truetype(os.path.join(FONT_DIR, f"SpaceGrotesk-{weight}.ttf"), size)
-    except OSError:
-        return ImageFont.load_default(size=size)
+    for d in FONT_DIRS:
+        try:
+            return ImageFont.truetype(os.path.join(d, f"SpaceGrotesk-{weight}.ttf"), size)
+        except OSError:
+            continue
+    return ImageFont.load_default(size=size)
 
 
 def gradient(size, c1, c2):

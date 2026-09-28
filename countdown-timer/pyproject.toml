@@ -1,0 +1,8 @@
+[project]
+name = "tps-presale-countdown"
+version = "1.0.0"
+requires-python = ">=3.12"
+dependencies = ["pillow>=10.1"]
+
+[tool.vercel]
+entrypoint = "api.countdown:app"

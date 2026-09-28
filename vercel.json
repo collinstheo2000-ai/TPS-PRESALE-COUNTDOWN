@@ -1,5 +1,0 @@
-{
-  "functions": {
-    "api/countdown.py": { "includeFiles": "api/fonts/**" }
-  }
-}
